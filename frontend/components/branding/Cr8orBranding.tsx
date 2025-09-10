@@ -222,8 +222,49 @@ const Wordmark = ({ size = 48, className = "" }) => {
 // Demo Component to showcase all logos
 const NovaMintBranding = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 p-8">
-      <div className="max-w-6xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-slate-900 to-emerald-950 p-8 relative overflow-hidden">
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        {/* Blockchain Network Visualization */}
+        <div className="absolute inset-0 opacity-20">
+          {/* Connection Lines */}
+          <svg className="w-full h-full" viewBox="0 0 1200 800">
+            <defs>
+              <linearGradient id="connectionGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style={{ stopColor: "#8b5cf6", stopOpacity: 0.6 }} />
+                <stop offset="50%" style={{ stopColor: "#06b6d4", stopOpacity: 0.4 }} />
+                <stop offset="100%" style={{ stopColor: "#10b981", stopOpacity: 0.6 }} />
+              </linearGradient>
+            </defs>
+            {/* Network connections */}
+            <path d="M100,200 Q300,100 500,200 T900,200" stroke="url(#connectionGradient)" strokeWidth="2" fill="none" opacity="0.3" className="animate-pulse" />
+            <path d="M150,400 Q350,300 550,400 T950,400" stroke="url(#connectionGradient)" strokeWidth="2" fill="none" opacity="0.3" className="animate-pulse animation-delay-1000" />
+            <path d="M200,600 Q400,500 600,600 T1000,600" stroke="url(#connectionGradient)" strokeWidth="2" fill="none" opacity="0.3" className="animate-pulse animation-delay-2000" />
+          </svg>
+        </div>
+        
+        {/* Floating NFT Cards */}
+        <div className="absolute top-20 left-10 w-16 h-20 bg-gradient-to-br from-purple-500/30 to-cyan-500/30 rounded-lg rotate-12 animate-float"></div>
+        <div className="absolute top-40 right-16 w-14 h-18 bg-gradient-to-br from-emerald-500/30 to-purple-500/30 rounded-lg -rotate-12 animate-float animation-delay-1000"></div>
+        <div className="absolute bottom-32 left-1/4 w-12 h-16 bg-gradient-to-br from-cyan-500/30 to-emerald-500/30 rounded-lg rotate-6 animate-float animation-delay-2000"></div>
+        <div className="absolute bottom-20 right-1/3 w-18 h-22 bg-gradient-to-br from-purple-500/30 to-cyan-500/30 rounded-lg -rotate-6 animate-float animation-delay-3000"></div>
+        
+        {/* Minting Particles */}
+        <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-emerald-400 rounded-full animate-bounce animation-delay-1000"></div>
+        <div className="absolute top-1/3 right-1/3 w-1.5 h-1.5 bg-purple-400 rounded-full animate-bounce animation-delay-2000"></div>
+        <div className="absolute bottom-1/3 left-1/3 w-2.5 h-2.5 bg-cyan-400 rounded-full animate-bounce animation-delay-3000"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-1 h-1 bg-emerald-300 rounded-full animate-bounce animation-delay-4000"></div>
+        
+        {/* Digital Art Brush Strokes */}
+        <div className="absolute top-32 right-1/4 w-24 h-1 bg-gradient-to-r from-transparent via-purple-400/40 to-transparent rotate-45 animate-pulse"></div>
+        <div className="absolute bottom-40 left-1/3 w-32 h-1 bg-gradient-to-r from-transparent via-cyan-400/40 to-transparent -rotate-45 animate-pulse animation-delay-1000"></div>
+        <div className="absolute top-1/2 right-1/5 w-20 h-1 bg-gradient-to-r from-transparent via-emerald-400/40 to-transparent rotate-12 animate-pulse animation-delay-2000"></div>
+        
+        {/* Subtle Grid Overlay */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(139,92,246,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.05)_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+      </div>
+      
+      <div className="max-w-6xl mx-auto relative z-10">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-white mb-4 bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
             NovaMint Logo Components
@@ -235,7 +276,7 @@ const NovaMintBranding = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* Primary Brand Logo */}
-          <div className="bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-white/10 hover:transform hover:-translate-y-2 transition-all duration-300">
+          <div className="bg-gradient-to-br from-slate-800/40 to-slate-900/60 backdrop-blur-lg rounded-2xl p-8 border border-emerald-500/20 hover:transform hover:-translate-y-2 hover:border-purple-500/40 transition-all duration-300 shadow-lg shadow-emerald-500/10 hover:shadow-purple-500/20">
             <h3 className="text-purple-400 text-xl font-semibold mb-6 text-center">
               Primary Brand Logo
             </h3>
@@ -248,7 +289,7 @@ const NovaMintBranding = () => {
           </div>
 
           {/* Icon Mark */}
-          <div className="bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-white/10 hover:transform hover:-translate-y-2 transition-all duration-300">
+          <div className="bg-gradient-to-br from-slate-800/40 to-slate-900/60 backdrop-blur-lg rounded-2xl p-8 border border-emerald-500/20 hover:transform hover:-translate-y-2 hover:border-purple-500/40 transition-all duration-300 shadow-lg shadow-emerald-500/10 hover:shadow-purple-500/20">
             <h3 className="text-purple-400 text-xl font-semibold mb-6 text-center">
               Icon Mark
             </h3>
@@ -261,7 +302,7 @@ const NovaMintBranding = () => {
           </div>
 
           {/* Wordmark */}
-          <div className="bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-white/10 hover:transform hover:-translate-y-2 transition-all duration-300">
+          <div className="bg-gradient-to-br from-slate-800/40 to-slate-900/60 backdrop-blur-lg rounded-2xl p-8 border border-emerald-500/20 hover:transform hover:-translate-y-2 hover:border-purple-500/40 transition-all duration-300 shadow-lg shadow-emerald-500/10 hover:shadow-purple-500/20">
             <h3 className="text-purple-400 text-xl font-semibold mb-6 text-center">
               Wordmark
             </h3>
@@ -275,7 +316,7 @@ const NovaMintBranding = () => {
         </div>
 
         {/* Usage Examples */}
-        <div className="mt-12 bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-white/10">
+        <div className="mt-12 bg-gradient-to-br from-slate-800/40 to-slate-900/60 backdrop-blur-lg rounded-2xl p-8 border border-emerald-500/20 shadow-lg shadow-emerald-500/10">
           <h3 className="text-purple-400 text-2xl font-semibold mb-6 text-center">
             Usage Examples
           </h3>
@@ -310,7 +351,7 @@ const NovaMintBranding = () => {
         </div>
 
         {/* Component Props */}
-        <div className="mt-8 bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-white/10">
+        <div className="mt-8 bg-gradient-to-br from-slate-800/40 to-slate-900/60 backdrop-blur-lg rounded-2xl p-8 border border-emerald-500/20 shadow-lg shadow-emerald-500/10">
           <h3 className="text-purple-400 text-xl font-semibold mb-4">
             Component Props
           </h3>
@@ -351,6 +392,39 @@ const NovaMintBranding = () => {
           100% {
             filter: drop-shadow(0 0 30px rgba(139, 92, 246, 0.9));
           }
+        }
+        
+        .animation-delay-1000 {
+          animation-delay: 1s;
+        }
+        
+        .animation-delay-2000 {
+          animation-delay: 2s;
+        }
+        
+        .animation-delay-3000 {
+          animation-delay: 3s;
+        }
+        
+        .bg-radial-gradient {
+          background: radial-gradient(ellipse at center, var(--tw-gradient-stops));
+        }
+        
+        @keyframes float {
+          0%, 100% {
+            transform: translateY(0px) rotate(0deg);
+          }
+          50% {
+            transform: translateY(-20px) rotate(5deg);
+          }
+        }
+        
+        .animate-float {
+          animation: float 6s ease-in-out infinite;
+        }
+        
+        .animation-delay-4000 {
+          animation-delay: 4s;
         }
       `}</style>
     </div>
