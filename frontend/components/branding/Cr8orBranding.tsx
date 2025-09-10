@@ -98,11 +98,11 @@ const PrimaryBrandLogo = ({ width = 200, height = 80, className = "" }) => {
           filter: "drop-shadow(0 0 20px rgba(139, 92, 246, 0.4))",
         }}
       >
-        <span>CR</span>
+        <span>NOVA</span>
         <span className="text-5xl font-black tracking-tight bg-gradient-to-r from-gray-300 via-gray-700 bg-clip-text text-transparent transform -rotate-12 inline-block relative">
-          8
+          M
         </span>
-        <span>OR</span>
+        <span>INT</span>
       </div>
     </div>
   );
@@ -205,16 +205,16 @@ const Wordmark = ({ size = 48, className = "" }) => {
         filter: "drop-shadow(0 0 20px rgba(139, 92, 246, 0.4))",
       }}
     >
-      CR
+      NOVA
       <span
         style={{
           fontSize: `${size + 11}px`,
         }}
         className=" font-black tracking-tight bg-gradient-to-r from-gray-300 via-gray-700 bg-clip-text text-transparent transform -rotate-12 inline-block relative"
       >
-        8
+        M
       </span>
-      OR
+      INT
     </span>
   );
 };
