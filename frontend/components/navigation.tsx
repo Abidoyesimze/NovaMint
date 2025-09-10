@@ -34,7 +34,7 @@ export function Navigation() {
           <Link href="/" className="flex items-center gap-2 h-fit">
             <PrimaryBrandLogo />
 
-            {/* <span className="text-xl font-bold text-white">Cr8or</span> */}
+            {/* <span className="text-xl font-bold text-white">NovaMint</span> */}
             <Badge
               variant="secondary"
               className="bg-purple-500/20 text-purple-300 border-purple-500/30 text-xs"

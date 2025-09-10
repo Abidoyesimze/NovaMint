@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 contract Cr8orNFT is ERC721URIStorage {
     uint256 public tokenCounter;
 
-    constructor() ERC721("Cr8or", "CR8") {
+    constructor() ERC721("NovaMint", "NOVA") {
         tokenCounter = 0;
     }
 

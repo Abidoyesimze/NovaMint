@@ -4,7 +4,7 @@ import "./globals.css";
 import Body from "@/components/layout/Body";
 
 export const metadata: Metadata = {
-  title: "Cr8or - Decentralized Creator Monetization",
+  title: "NovaMint - Decentralized Creator Monetization",
   description:
     "The first decentralized platform where creators mint NFTs of their audio and art content with built-in royalty splits.",
 };

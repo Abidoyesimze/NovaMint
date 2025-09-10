@@ -220,13 +220,13 @@ const Wordmark = ({ size = 48, className = "" }) => {
 };
 
 // Demo Component to showcase all logos
-const Cr8orBranding = () => {
+const NovaMintBranding = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 p-8">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-white mb-4 bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
-            CR8OR Logo Components
+            NovaMint Logo Components
           </h1>
           <p className="text-gray-300">
             Modern, Scalable React/Next.js Logo Components
@@ -357,7 +357,7 @@ const Cr8orBranding = () => {
   );
 };
 
-export default Cr8orBranding;
+export default NovaMintBranding;
 
 // Export individual components for use in other files
 export { PrimaryBrandLogo, IconMark, Wordmark };

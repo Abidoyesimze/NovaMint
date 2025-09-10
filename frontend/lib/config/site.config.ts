@@ -1,5 +1,5 @@
 export const siteConfig = {
-  name: "cr8or",
+  name: "NovaMint",
   description: "",
   url: "",
   icon: "",
