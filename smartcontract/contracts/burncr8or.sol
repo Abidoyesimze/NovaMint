@@ -1,146 +1,114 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.28;
+pragma solidity ^0.8.19;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Royalty.sol";
 
+contract BurnCr8or is ERC721Burnable, ERC721Royalty {
+    // STATE VARIABLES
+    mapping(uint256 => uint256) public tokenPrices;
+    mapping(uint256 => bool) public tokenForSale;
+    mapping(uint256 => address) public tokenCreators;
 
+    // EVENTS
+    event TokenPriceUpdated(
+        uint256 indexed tokenId,
+        address indexed owner,
+        uint256 newPrice,
+        bool forSale
+    );
+    event TokenBurned(uint256 indexed tokenId, address indexed owner);
 
+    constructor() ERC721("BurnCr8or", "BCR8") {}
 
-mapping(uint256 => uint256) public tokenPrices;
+    // BURN FUNCTIONS
+    function burnToken(uint256 tokenId) external {
+        require(_ownerOf(tokenId) != address(0), "Token does not exist");
+        require(ownerOf(tokenId) == msg.sender, "Only owner can burn token");
 
-// Mapping to track if token is for sale
-mapping(uint256 => bool) public tokenForSale;
+        if (tokenForSale[tokenId]) {
+            tokenPrices[tokenId] = 0;
+            tokenForSale[tokenId] = false;
+        }
 
-// Additional events to add:
-event TokenPriceUpdated(
-    uint256 indexed tokenId,
-    address indexed owner,
-    uint256 newPrice,
-    bool forSale
-);
+        _resetTokenRoyalty(tokenId);
+        delete tokenCreators[tokenId];
 
-event TokenBurned(
-    uint256 indexed tokenId,
-    address indexed owner
-);
-
-// BURN FUNCTIONS
-
-/**
- * @dev Burn a token (only owner can burn their own token)
- * @param tokenId The token ID to burn
- */
-function burnToken(uint256 tokenId) external {
-    require(_ownerOf(tokenId) != address(0), "Token does not exist");
-    require(ownerOf(tokenId) == msg.sender, "Only owner can burn token");
-
-    // Remove from sale if it was for sale
-    if (tokenForSale[tokenId]) {
-        tokenPrices[tokenId] = 0;
-        tokenForSale[tokenId] = false;
+        _burn(tokenId);
+        emit TokenBurned(tokenId, msg.sender);
     }
 
-    // Clear royalty info
-    _resetTokenRoyalty(tokenId);
+    function burn(uint256 tokenId) public override {
+        require(_ownerOf(tokenId) != address(0), "Token does not exist");
+        require(
+            _isAuthorized(ownerOf(tokenId), msg.sender, tokenId),
+            "Not authorized to burn"
+        );
 
-    // Clear creator mapping
-    delete tokenCreators[tokenId];
+        if (tokenForSale[tokenId]) {
+            tokenPrices[tokenId] = 0;
+            tokenForSale[tokenId] = false;
+        }
 
-    // Burn the token
-    _burn(tokenId);
+        _resetTokenRoyalty(tokenId);
+        delete tokenCreators[tokenId];
 
-    emit TokenBurned(tokenId, msg.sender);
-}
-
-/**
- * @dev Alternative burn function using ERC721Burnable standard
- * @param tokenId The token ID to burn
- */
-function burn(uint256 tokenId) public override {
-    require(_ownerOf(tokenId) != address(0), "Token does not exist");
-    require(_isAuthorized(ownerOf(tokenId), msg.sender, tokenId), "Not authorized to burn");
-
-    // Remove from sale if it was for sale
-    if (tokenForSale[tokenId]) {
-        tokenPrices[tokenId] = 0;
-        tokenForSale[tokenId] = false;
+        super.burn(tokenId);
+        emit TokenBurned(tokenId, ownerOf(tokenId));
     }
 
-    // Clear royalty info
-    _resetTokenRoyalty(tokenId);
+    // PRICE UPDATE FUNCTIONS
+    function setTokenPrice(uint256 tokenId, uint256 price) external {
+        require(_ownerOf(tokenId) != address(0), "Token does not exist");
+        require(ownerOf(tokenId) == msg.sender, "Only owner can set price");
 
-    // Clear creator mapping
-    delete tokenCreators[tokenId];
+        tokenPrices[tokenId] = price;
+        tokenForSale[tokenId] = price > 0;
 
-    // Call parent burn function
-    super.burn(tokenId);
+        emit TokenPriceUpdated(tokenId, msg.sender, price, price > 0);
+    }
 
-    emit TokenBurned(tokenId, ownerOf(tokenId));
-}
+    function updateTokenPrice(uint256 tokenId, uint256 newPrice) external {
+        require(_ownerOf(tokenId) != address(0), "Token does not exist");
+        require(ownerOf(tokenId) == msg.sender, "Only owner can update price");
+        require(newPrice > 0, "Price must be greater than 0");
 
-// PRICE UPDATE FUNCTIONS
+        tokenPrices[tokenId] = newPrice;
+        tokenForSale[tokenId] = true;
 
-/**
- * @dev Set price for a token and mark it for sale
- * @param tokenId The token ID to set price for
- * @param price The price in wei (set to 0 to remove from sale)
- */
-function setTokenPrice(uint256 tokenId, uint256 price) external {
-    require(_ownerOf(tokenId) != address(0), "Token does not exist");
-    require(ownerOf(tokenId) == msg.sender, "Only owner can set price");
+        emit TokenPriceUpdated(tokenId, msg.sender, newPrice, true);
+    }
 
-    tokenPrices[tokenId] = price;
-    tokenForSale[tokenId] = price > 0;
+    function removeFromSale(uint256 tokenId) external {
+        require(_ownerOf(tokenId) != address(0), "Token does not exist");
+        require(
+            ownerOf(tokenId) == msg.sender,
+            "Only owner can remove from sale"
+        );
 
-    emit TokenPriceUpdated(tokenId, msg.sender, price, price > 0);
-}
+        tokenPrices[tokenId] = 0;
+        tokenForSale[tokenId] = false;
 
-/**
- * @dev Update price for a token that's already for sale
- * @param tokenId The token ID to update price for
- * @param newPrice The new price in wei
- */
-function updateTokenPrice(uint256 tokenId, uint256 newPrice) external {
-    require(_ownerOf(tokenId) != address(0), "Token does not exist");
-    require(ownerOf(tokenId) == msg.sender, "Only owner can update price");
-    require(newPrice > 0, "Price must be greater than 0");
+        emit TokenPriceUpdated(tokenId, msg.sender, 0, false);
+    }
 
-    tokenPrices[tokenId] = newPrice;
-    tokenForSale[tokenId] = true;
+    // HELPERS
+    function getTokenPrice(
+        uint256 tokenId
+    ) external view returns (uint256 price, bool forSale) {
+        require(_ownerOf(tokenId) != address(0), "Token does not exist");
+        return (tokenPrices[tokenId], tokenForSale[tokenId]);
+    }
 
-    emit TokenPriceUpdated(tokenId, msg.sender, newPrice, true);
-}
+    function isTokenForSale(uint256 tokenId) external view returns (bool) {
+        require(_ownerOf(tokenId) != address(0), "Token does not exist");
+        return tokenForSale[tokenId];
+    }
 
-/**
- * @dev Remove token from sale
- * @param tokenId The token ID to remove from sale
- */
-function removeFromSale(uint256 tokenId) external {
-    require(_ownerOf(tokenId) != address(0), "Token does not exist");
-    require(ownerOf(tokenId) == msg.sender, "Only owner can remove from sale");
-
-    tokenPrices[tokenId] = 0;
-    tokenForSale[tokenId] = false;
-
-    emit TokenPriceUpdated(tokenId, msg.sender, 0, false);
-}
-
-// HELPER FUNCTIONS
-
-/**
- * @dev Get token price and sale status
- * @param tokenId The token ID to check
- */
-function getTokenPrice(uint256 tokenId) external view returns (uint256 price, bool forSale) {
-    require(_ownerOf(tokenId) != address(0), "Token does not exist");
-    return (tokenPrices[tokenId], tokenForSale[tokenId]);
-}
-
-/**
- * @dev Check if a token is for sale
- * @param tokenId The token ID to check
- */
-function isTokenForSale(uint256 tokenId) external view returns (bool) {
-    require(_ownerOf(tokenId) != address(0), "Token does not exist");
-    return tokenForSale[tokenId];
+    // FIX: Resolve inheritance clash
+    function supportsInterface(
+        bytes4 interfaceId
+    ) public view override(ERC721, ERC721Royalty) returns (bool) {
+        return super.supportsInterface(interfaceId);
+    }
 }
