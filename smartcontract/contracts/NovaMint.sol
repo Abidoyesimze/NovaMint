@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.28;
+pragma solidity ^0.8.19;
 
 import "./CreatorMonetizationNFT.sol"; // Adjust path as needed
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract Cr8or is Ownable, CreatorMonetizationNFT {
+contract NovaMint is Ownable, CreatorMonetizationNFT {
     // tokenId => price in wei
     mapping(uint256 => uint256) public tokenPrices;
 
