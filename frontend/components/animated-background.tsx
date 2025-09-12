@@ -30,7 +30,7 @@ export function AnimatedBackground() {
       color: string;
     }> = [];
 
-    const colors = ["#8B5CF6", "#06B6D4", "#10B981", "#F59E0B"];
+    const colors = ["#3B82F6", "#06B6D4", "#F97316", "#10B981"];
 
     // Create particles
     for (let i = 0; i < 50; i++) {
@@ -75,7 +75,7 @@ export function AnimatedBackground() {
             ctx.beginPath();
             ctx.moveTo(particle.x, particle.y);
             ctx.lineTo(otherParticle.x, otherParticle.y);
-            ctx.strokeStyle = `rgba(139, 92, 246, ${
+            ctx.strokeStyle = `rgba(59, 130, 246, ${
               0.1 * (1 - distance / 100)
             })`;
             ctx.lineWidth = 0.5;

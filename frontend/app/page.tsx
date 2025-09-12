@@ -44,7 +44,7 @@ const itemVariants = {
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-slate-950 text-white overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-orange-950 text-white overflow-hidden">
       <AnimatedBackground />
 
       {/* Hero Section */}
@@ -56,14 +56,14 @@ export default function LandingPage() {
           animate="visible"
         >
           <motion.div variants={itemVariants} className="mb-6">
-            <span className="inline-block px-4 py-2 bg-purple-500/20 border border-purple-500/30 rounded-full text-purple-300 text-sm font-medium backdrop-blur-sm">
+            <span className="inline-block px-4 py-2 bg-blue-500/20 border border-blue-500/30 rounded-full text-blue-300 text-sm font-medium backdrop-blur-sm">
               🎵 Decentralized Creator Economy 🎭
             </span>
           </motion.div>
 
           <motion.h1
             variants={itemVariants}
-            className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-400 bg-clip-text text-transparent"
+            className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-orange-400 to-blue-400 bg-clip-text text-transparent"
           >
             Mint. Share. Earn.
           </motion.h1>
@@ -84,7 +84,7 @@ export default function LandingPage() {
             <Link href="/marketplace">
               <Button
                 size="lg"
-                className="bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-700 hover:to-cyan-700 text-white px-8 py-4 text-lg font-semibold rounded-xl shadow-lg hover:shadow-purple-500/25 transition-all duration-300"
+                className="bg-gradient-to-r from-blue-600 to-orange-600 hover:from-blue-700 hover:to-orange-700 text-white px-8 py-4 text-lg font-semibold rounded-xl shadow-lg hover:shadow-blue-500/25 transition-all duration-300"
               >
                 Explore Marketplace
                 <ArrowRight className="ml-2 w-5 h-5" />
@@ -94,7 +94,7 @@ export default function LandingPage() {
               <Button
                 variant="outline"
                 size="lg"
-                className="border-purple-500/50 text-purple-300 hover:bg-purple-500/10 px-8 py-4 text-lg font-semibold rounded-xl backdrop-blur-sm"
+                className="border-blue-500/50 text-blue-300 hover:bg-blue-500/10 px-8 py-4 text-lg font-semibold rounded-xl backdrop-blur-sm"
               >
                 Start Creating
               </Button>
@@ -116,7 +116,7 @@ export default function LandingPage() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-orange-400 bg-clip-text text-transparent">
               Why Choose Our Platform?
             </h2>
             <p className="text-xl text-slate-300 max-w-3xl mx-auto">
@@ -181,7 +181,7 @@ export default function LandingPage() {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <Card className="bg-gradient-to-r from-purple-900/50 to-cyan-900/50 border-purple-500/30 backdrop-blur-sm">
+            <Card className="bg-gradient-to-r from-blue-900/50 to-orange-900/50 border-blue-500/30 backdrop-blur-sm">
               <CardContent className="p-12">
                 <h3 className="text-3xl md:text-4xl font-bold mb-6 text-white">
                   Ready to Monetize Your Creativity?
@@ -194,7 +194,7 @@ export default function LandingPage() {
                   <Link href="/create">
                     <Button
                       size="lg"
-                      className="bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-700 hover:to-cyan-700 text-white px-8 py-4 text-lg font-semibold rounded-xl"
+                      className="bg-gradient-to-r from-blue-600 to-orange-600 hover:from-blue-700 hover:to-orange-700 text-white px-8 py-4 text-lg font-semibold rounded-xl"
                     >
                       Start Minting Now
                       <ArrowRight className="ml-2 w-5 h-5" />
@@ -204,7 +204,7 @@ export default function LandingPage() {
                     <Button
                       variant="outline"
                       size="lg"
-                      className="border-purple-500/50 text-purple-300 hover:bg-purple-500/10 px-8 py-4 text-lg font-semibold rounded-xl"
+                      className="border-blue-500/50 text-blue-300 hover:bg-blue-500/10 px-8 py-4 text-lg font-semibold rounded-xl"
                     >
                       Browse Collection
                     </Button>
