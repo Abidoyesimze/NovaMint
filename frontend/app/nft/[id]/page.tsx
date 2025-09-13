@@ -103,15 +103,15 @@ export default function NFTDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white">
+    <div className="min-h-screen bg-slate-950 text-white overflow-x-hidden">
       <AnimatedBackground />
 
       <div className="relative z-10 pt-24 pb-12">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
             {/* Media Section */}
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
+              initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
               className="space-y-6"
@@ -166,7 +166,7 @@ export default function NFTDetailPage() {
 
             {/* Details Section */}
             <motion.div
-              initial={{ opacity: 0, x: 20 }}
+              initial={{ opacity: 0, x: 10 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
               className="space-y-6"
@@ -350,8 +350,8 @@ export default function NFTDetailPage() {
                       <span className="text-slate-400">Transaction Hash</span>
                       <div className="flex items-center gap-2">
                         <span className="font-mono text-slate-300">
-                          {txnHash.length > 0 ? txnHash?.replace(
-                            txnHash?.slice(5, txnHash?.length - 5),
+                          {txnHash && txnHash.length > 0 ? txnHash.replace(
+                            txnHash.slice(5, txnHash.length - 5),
                             "..."
                           ) : <Spinner />}
                         </span>
@@ -400,7 +400,7 @@ export default function NFTDetailPage() {
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-slate-400">Blockchain</span>
-                      <span className="text-slate-300">LISK L2</span>
+                      <span className="text-slate-300">Somnia Testnet</span>
                     </div>
                   </div>
                 </CardContent>

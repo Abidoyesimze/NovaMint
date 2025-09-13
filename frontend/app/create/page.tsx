@@ -27,6 +27,7 @@ import {
   useWatchContractEvent,
   useWriteContract,
 } from "wagmi";
+import { ethers } from "ethers";
 
 import { Cr8orAbi, Cr8orAddress } from "@/lib/var";
 
@@ -95,7 +96,7 @@ export default function CreatePage() {
       formState: { errors },
     } = useForm<NFTFormData>(),
     formData = watch(),
-    { writeContractAsync } = useWriteContract(),
+    // Removed writeContractAsync - now using ethers directly
     handleFileUpload = (files: { main?: File; artwork?: File }) => {
       setUploadedFiles(files);
       if (files.main) {
@@ -107,9 +108,9 @@ export default function CreatePage() {
       artworkFile: File | undefined,
       title: string
     ): Promise<string[]> => {
+      const toastId = toast.loading("Uploading files to IPFS...");
+      
       try {
-        const toastId = toast.loading("Uploading files to IPFS...");
-
         const formData = new FormData();
         formData.append("mainFile", mainFile);
         formData.append("title", title);
@@ -123,9 +124,17 @@ export default function CreatePage() {
           body: formData,
         });
 
+        console.log("Response status:", response.status);
+        console.log("Response headers:", response.headers);
+
         if (!response.ok) {
           const errorData = await response.json();
-          throw new Error(errorData.error || "Failed to upload files");
+          console.error("API Error Details:", {
+            status: response.status,
+            statusText: response.statusText,
+            error: errorData
+          });
+          throw new Error(errorData.error || `Failed to upload files (${response.status})`);
         }
 
         const data = await response.json();
@@ -133,15 +142,18 @@ export default function CreatePage() {
         return data.cids;
       } catch (error) {
         console.error("Error pinning files:", error);
-        throw new Error("Failed to upload files to IPFS");
+        toast.dismiss(toastId);
+        const errorMessage = error instanceof Error ? error.message : "Failed to upload files to IPFS";
+        throw new Error(errorMessage);
       }
     },
     pinMetadata = async (
       fileHashes: string[],
       newNFT: _newNFT
     ): Promise<string> => {
+      const toastId = toast.loading("Uploading metadata to IPFS...");
+      
       try {
-        const toastId = toast.loading("Uploading metadata to IPFS...");
 
         const response = await fetch("/api/pinMetadata", {
           method: "POST",
@@ -158,6 +170,7 @@ export default function CreatePage() {
 
         if (!response.ok) {
           const errorData = await response.json();
+          console.error("Metadata API Error:", errorData);
           throw new Error(errorData.error || "Failed to upload metadata");
         }
 
@@ -167,7 +180,9 @@ export default function CreatePage() {
         return data.cid;
       } catch (error) {
         console.error("Error pinning metadata:", error);
-        throw new Error("Failed to upload metadata to IPFS");
+        toast.dismiss(toastId);
+        const errorMessage = error instanceof Error ? error.message : "Failed to upload metadata to IPFS";
+        throw new Error(errorMessage);
       }
     },
     mintNFT = async (
@@ -175,27 +190,42 @@ export default function CreatePage() {
       metadataHash: string,
       price: number
     ): Promise<void> => {
+      const toastId = toast.loading("Minting NFT on blockchain...");
+      
       try {
-        const //
-          toastId = toast.loading("Minting NFT on blockchain...");
-        const mintHash = await writeContractAsync({
-          address: Cr8orAddress,
-          abi: Cr8orAbi,
-          functionName: "mintNFT",
-          args: [
-            address as `0x${string}`,
-            `https://ipfs.io/ipfs/${metadataHash}`,
-            BigInt(Math.floor(price * 1e18)),
-          ],
-        });
-
+        // Get provider and signer from window.ethereum
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const signer = await provider.getSigner();
+        
+        // Create contract instance
+        const contract = new ethers.Contract(Cr8orAddress, Cr8orAbi, signer);
+        
+        // Call mintNFT function (checking if it's the 2-parameter version)
+        const tx = await contract.mintNFT(
+          address,
+          `https://ipfs.io/ipfs/${metadataHash}`
+        );
+        
+        console.log("Transaction hash:", tx.hash);
         toast.dismiss(toastId);
+        
+        // Wait for transaction confirmation
+        await tx.wait();
+        console.log("Transaction confirmed!");
+        
+        // Get the token ID and set price
+        const tokenId = await contract.totalSupply() - BigInt(1);
+        console.log("Setting price for token:", tokenId);
+        const setPriceTx = await contract.setPrice(tokenId, ethers.parseEther(price.toString()));
+        await setPriceTx.wait();
+        console.log("Price set successfully!");
+        
         await fetch("/api/txnHash", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ id: id, txnHash: mintHash }),
+          body: JSON.stringify({ id: id, txnHash: tx.hash }),
         })
           .then((res) => res.json())
           .then((data) => {
@@ -205,19 +235,38 @@ export default function CreatePage() {
 
       } catch (error) {
         console.error("Error minting NFT:", error);
+        toast.dismiss(toastId);
+        toast.error("Failed to mint NFT. Please try again.");
       }
     },
     setApproval = async () => {
       const toastId = toast.loading("Put out for sale");
-
-      await writeContractAsync({
-        address: Cr8orAddress,
-        abi: Cr8orAbi,
-        functionName: "setApprovalForAll",
-        args: [Cr8orAddress, true],
-      });
-      toast.dismiss(toastId);
-      return;
+      
+      try {
+        // Get provider and signer from window.ethereum
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const signer = await provider.getSigner();
+        
+        // Create contract instance
+        const contract = new ethers.Contract(Cr8orAddress, Cr8orAbi, signer);
+        
+        // Call setApprovalForAll function
+        const tx = await contract.setApprovalForAll(Cr8orAddress, true);
+        
+        console.log("Approval transaction hash:", tx.hash);
+        
+        // Wait for transaction confirmation
+        await tx.wait();
+        console.log("Approval transaction confirmed!");
+        
+        toast.dismiss(toastId);
+        toast.success("NFT minted and listed for sale successfully!");
+        
+      } catch (error) {
+        console.error("Error setting approval:", error);
+        toast.dismiss(toastId);
+        toast.error("Failed to set approval. Please try again.");
+      }
     },
     onSubmit = async (data: NFTFormData) => {
       console.log(nextID);
@@ -526,11 +575,11 @@ export default function CreatePage() {
                                   required: "Price is required",
                                   min: {
                                     value: 0.001,
-                                    message: "Minimum price is 0.001 LSK",
+                                    message: "Minimum price is 0.001 STT",
                                   },
                                   max: {
                                     value: 0.01,
-                                    message: "Maximum price is 0.01 LSK",
+                                    message: "Maximum price is 0.01 STT",
                                   },
                                   validate: (value) =>
                                     !isNaN(Number(value)) ||

@@ -2,15 +2,36 @@ import { create } from "zustand";
 import { readContract } from "@wagmi/core";
 import { Cr8orAbi, Cr8orAddress } from "@/lib/var";
 import { createConfig, http } from "wagmi";
-import { lisk, liskSepolia, localhost } from "wagmi/chains";
+
+
+// Define Somnia testnet chain configuration
+const somniaTestnet = {
+  id: 50312,
+  name: "Somnia Testnet",
+  nativeCurrency: {
+    decimals: 18,
+    name: "STT",
+    symbol: "STT",
+  },
+  rpcUrls: {
+    default: {
+      http: ["https://dream-rpc.somnia.network"],
+    },
+  },
+  blockExplorers: {
+    default: {
+      name: "Somnia Explorer",
+      url: "https://shannon-explorer.somnia.network",
+    },
+  },
+  testnet: true,
+} as const;
 import { formatEther } from "viem";
 
 const config = createConfig({
-  chains: [lisk, liskSepolia, localhost],
+  chains: [somniaTestnet],
   transports: {
-    [liskSepolia.id]: http(),
-    [localhost.id]: http(),
-    [lisk.id]: http(),
+    [somniaTestnet.id]: http(),
   },
 });
 

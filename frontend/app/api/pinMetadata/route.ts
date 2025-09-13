@@ -2,12 +2,24 @@ import { NextRequest, NextResponse } from 'next/server';
 import { PinataSDK } from 'pinata';
 
 const pinata = new PinataSDK({
-    pinataJwt: process.env.PINATA_JWT!,
-    pinataGateway: process.env.PINATA_GATEWAY!,
+    pinataJwt: process.env.NEXT_PUBLIC_PINATA_JWT!,
+    pinataGateway: process.env.NEXT_PUBLIC_GATEWAY_URL!,
 });
 
 export async function POST(request: NextRequest) {
     try {
+        // Check if Pinata credentials are configured
+        if (!process.env.NEXT_PUBLIC_PINATA_JWT || !process.env.NEXT_PUBLIC_GATEWAY_URL) {
+            console.error('Missing Pinata credentials:', {
+                hasJWT: !!process.env.NEXT_PUBLIC_PINATA_JWT,
+                hasGateway: !!process.env.NEXT_PUBLIC_GATEWAY_URL
+            });
+            return NextResponse.json(
+                { error: 'IPFS service not configured. Please check environment variables.' },
+                { status: 500 }
+            );
+        }
+
         const { fileHashes, nftData } = await request.json();
 
         if (!fileHashes || !nftData) {
