@@ -75,14 +75,14 @@ NovaMint breaks down traditional barriers in the creator economy by:
 
 ## How It Works
 
-### 📱 **For Creators**
+###  **For Creators**
 1. **Connect Wallet**: Link your Web3 wallet to the Somnia Testnet
 2. **Upload Content**: Drag and drop your audio files or digital artwork
 3. **Set Details**: Add title, description, tags, and pricing
 4. **Mint NFT**: Create your NFT with automatic IPFS storage
 5. **Start Earning**: Your NFT is immediately available for purchase
 
-### 🛒 **For Collectors**
+###  **For Collectors**
 1. **Browse Gallery**: Discover unique audio and art NFTs
 2. **Connect Wallet**: Ensure you have STT tokens for purchases
 3. **Purchase NFT**: Buy directly from creators with transparent pricing
@@ -91,14 +91,14 @@ NovaMint breaks down traditional barriers in the creator economy by:
 
 ## Platform Benefits
 
-### 🎯 **For Creators**
+###  **For Creators**
 - **Higher Revenue**: Keep 90% of all sales (vs. 30-50% on traditional platforms)
 - **No Gatekeepers**: No approval process or platform restrictions
 - **Global Reach**: Sell to anyone worldwide with internet access
 - **Permanent Income**: Earn royalties on every resale
 - **Full Control**: You own your content and pricing
 
-### 🏆 **For Collectors**
+###  **For Collectors**
 - **True Ownership**: Own the actual digital asset, not just a license
 - **Direct Support**: Your money goes directly to creators
 - **Transparent Pricing**: No hidden fees or surprise costs
@@ -107,13 +107,13 @@ NovaMint breaks down traditional barriers in the creator economy by:
 
 ## Economic Model
 
-### 💰 **Revenue Distribution**
+###  **Revenue Distribution**
 - **Creator Earnings**: 90% of primary sales + 90% of resale royalties
 - **Platform Fee**: 10% supports development and infrastructure
 - **Gas Fees**: Minimal transaction costs on Somnia Testnet
 - **Storage**: IPFS pinning costs covered by platform
 
-### 🔄 **Royalty System**
+###  **Royalty System**
 - **Automatic Distribution**: Smart contracts handle all payments
 - **Transparent Tracking**: All transactions visible on blockchain
 - **Instant Payments**: No waiting periods or payment delays
