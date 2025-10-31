@@ -69,7 +69,7 @@ NovaMint breaks down traditional barriers in the creator economy by:
 - **Frontend**: Next.js, React, TypeScript, Tailwind CSS, Framer Motion
 - **Smart Contracts**: Solidity, Hardhat
 - **Blockchain**: Somnia Testnet (STT)
-- **Wallet Integration**: RainbowKit, Wagmi, Ethers.js
+- **Wallet Integration**: WalletConnect, RainbowKit, Wagmi, Ethers.js
 - **Storage**: IPFS via Pinata
 - **UI Components**: Shadcn/ui, Lucide React Icons
 

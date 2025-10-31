@@ -9,6 +9,7 @@ import {
   darkTheme,
 } from "@rainbow-me/rainbowkit";
 import {
+  walletConnectWallet,
   metaMaskWallet,
   okxWallet,
   trustWallet,
@@ -43,15 +44,18 @@ import { WagmiProvider } from "wagmi";
 const { wallets } = getDefaultWallets();
 
 const config = getDefaultConfig({
-  appName: "Celorean",
-  projectId: "b7cfcf662095cd0ee1e06aa9eebd146a",
+  appName: "NovaMint",
+  projectId: "a69043ecf4dca5c34a5e70fdfeac4558",
   wallets: [
     {
+      groupName: "Popular",
+      wallets: [walletConnectWallet, metaMaskWallet],
+    },
+    {
       groupName: "Other",
-      wallets: [metaMaskWallet, okxWallet, trustWallet],
+      wallets: [okxWallet, trustWallet],
     },
     ...wallets,
-    //
   ],
   chains: [somniaTestnet],
   ssr: true,
